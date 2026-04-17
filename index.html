@@ -4,732 +4,1088 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Swatantra Kumar Karna | Personal Blog</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --red: #C0392B;
-    --red-dark: #96281B;
-    --red-light: #E74C3C;
-    --blue: #1A4A8A;
-    --blue-mid: #2471A3;
-    --blue-light: #EAF3FB;
-    --gold: #D4AC0D;
-    --gold-light: #F9E79F;
-    --cream: #FAF7F0;
-    --dark: #1C1C1C;
-    --gray: #555;
-    --light-gray: #EEE;
-    --border: rgba(0,0,0,0.10);
-    --white: #fff;
-  }
+:root {
+  --crimson: #8B1A1A;
+  --crimson-deep: #5C0E0E;
+  --crimson-muted: rgba(139,26,26,0.12);
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-pale: rgba(201,168,76,0.1);
+  --ink: #0F0E0C;
+  --ink-mid: #2A2824;
+  --text: #3D3A35;
+  --text-light: #7A7570;
+  --cream: #F5F0E8;
+  --cream-dark: #EDE6D6;
+  --paper: #FAF7F2;
+  --white: #FFFFFF;
+  --border: rgba(15,14,12,0.10);
+  --navy: #0D1B3E;
+  --navy-mid: #1A2F5C;
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-  body {
-    font-family: 'Crimson Pro', Georgia, serif;
-    background: var(--cream);
-    color: var(--dark);
-    font-size: 18px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
 
-  /* ===== PRELOADER ===== */
-  #preloader {
-    position: fixed; inset: 0; background: var(--dark);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s;
-  }
-  #preloader.hidden { opacity: 0; visibility: hidden; }
-  .loader-text {
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    font-size: 2rem;
-    letter-spacing: 0.3em;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+/* ===== PRELOADER ===== */
+#preloader {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  z-index: 9999;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+#preloader.hidden { opacity: 0; visibility: hidden; }
+.loader-emblem {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: 5rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  animation: fadeUpIn 0.8s ease both;
+}
+.loader-line {
+  width: 0; height: 1px;
+  background: var(--gold);
+  margin-top: 1.5rem;
+  animation: expandLine 1s ease 0.4s both;
+}
+@keyframes expandLine { to { width: 120px; } }
+@keyframes fadeUpIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:none} }
+.loader-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  color: rgba(201,168,76,0.6);
+  text-transform: uppercase;
+  margin-top: 0.8rem;
+  animation: fadeUpIn 0.8s ease 0.6s both;
+}
 
-  /* ===== NAVIGATION ===== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(28,28,28,0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 2px solid var(--red);
-    padding: 0 3rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-    transition: all 0.3s;
-  }
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    font-size: 1.15rem;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
-    font-family: 'Crimson Pro', serif;
-    font-size: 0.95rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute; left: 0; bottom: -4px; right: 0;
-    height: 1px; background: var(--gold);
-    transform: scaleX(0); transition: transform 0.2s;
-  }
-  .nav-links a:hover { color: var(--gold); }
-  .nav-links a:hover::after { transform: scaleX(1); }
+/* ===== NOISE TEXTURE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9998; opacity: 0.4;
+}
 
-  /* ===== HERO ===== */
-  .hero {
-    min-height: 100vh;
-    background: linear-gradient(160deg, #0a0a0a 0%, #1C1C1C 40%, #1A2744 100%);
-    display: flex; align-items: center;
-    padding: 100px 3rem 60px;
-    position: relative; overflow: hidden;
-  }
-  .hero-bg-pattern {
-    position: absolute; inset: 0;
-    background-image: 
-      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px),
-      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px);
-    pointer-events: none;
-  }
-  .hero-flag-stripe {
-    position: absolute; top: 0; right: 0;
-    width: 6px; height: 100%;
-    background: linear-gradient(to bottom, var(--red) 50%, var(--blue) 50%);
-    opacity: 0.6;
-  }
-  .hero-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative; z-index: 2;
-    width: 100%;
-  }
-  .hero-left { animation: fadeInLeft 1s ease both; }
-  @keyframes fadeInLeft { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:none} }
-  @keyframes fadeInRight { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:none} }
-  @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4rem;
+  background: rgba(15,14,12,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  transition: height 0.3s;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-flag {
+  display: flex; flex-direction: column;
+  width: 3px; height: 20px;
+  overflow: hidden;
+}
+.nav-logo-flag span {
+  flex: 1; display: block;
+}
+.nav-logo-flag span:first-child { background: var(--crimson); }
+.nav-logo-flag span:last-child { background: #003893; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
 
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    color: var(--gold);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-  .hero-eyebrow::before {
-    content: ''; width: 32px; height: 1px; background: var(--gold);
-  }
-  .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 4.2rem);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.1;
-    margin-bottom: 0.4rem;
-  }
-  .hero-name span { color: var(--red-light); }
-  .hero-title-np {
-    font-family: 'Crimson Pro', serif;
-    font-size: 1.4rem;
-    color: rgba(255,255,255,0.75);
-    margin-bottom: 0.3rem;
-    font-style: italic;
-  }
-  .hero-ministry {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--gold);
-    letter-spacing: 0.12em;
-    background: rgba(212,172,13,0.1);
-    border: 1px solid rgba(212,172,13,0.3);
-    padding: 6px 14px;
-    display: inline-block;
-    margin: 1.5rem 0;
-    border-radius: 2px;
-  }
-  .hero-desc {
-    color: rgba(255,255,255,0.65);
-    font-size: 1.05rem;
-    max-width: 480px;
-    margin-bottom: 2.5rem;
-  }
-  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--red);
-    color: #fff;
-    padding: 12px 28px;
-    text-decoration: none;
-    font-family: 'Crimson Pro', serif;
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: none; cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
-  .btn-outline {
-    border: 1px solid rgba(255,255,255,0.4);
-    color: rgba(255,255,255,0.85);
-    padding: 12px 28px;
-    text-decoration: none;
-    font-family: 'Crimson Pro', serif;
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: border-color 0.2s, color 0.2s;
-    display: inline-block;
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  background: var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
 
-  /* Hero Right — Avatar Card */
-  .hero-right {
-    display: flex; justify-content: center; align-items: center;
-    animation: fadeInRight 1s ease 0.2s both;
-  }
-  .avatar-card {
-    position: relative;
-    width: 320px;
-  }
-  .avatar-frame {
-    width: 320px; height: 360px;
-    background: linear-gradient(135deg, #1A3055 0%, #0D1B2A 100%);
-    border: 1px solid rgba(212,172,13,0.35);
-    position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-  }
-  .avatar-initials {
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem; font-weight: 700;
-    color: #fff;
-    margin-bottom: 1.2rem;
-    border: 3px solid rgba(212,172,13,0.5);
-    position: relative; z-index: 1;
-  }
-  .avatar-card-name {
-    font-family: 'Playfair Display', serif;
-    color: #fff; font-size: 1.1rem; font-weight: 700;
-    text-align: center; position: relative; z-index: 1;
-  }
-  .avatar-card-role {
-    color: var(--gold); font-size: 0.8rem;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
-    text-align: center;
-    position: relative; z-index: 1;
-    margin-top: 4px;
-  }
-  .avatar-badge {
-    position: absolute; bottom: -12px; right: -12px;
-    width: 80px; height: 80px;
-    background: var(--red);
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-  }
-  .avatar-badge span {
-    color: #fff;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-align: center;
-    line-height: 1.3;
-    text-transform: uppercase;
-    padding: 4px;
-  }
-  .hero-stats {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.08);
-    margin-top: 1rem;
-  }
-  .hero-stat {
-    background: rgba(255,255,255,0.04);
-    padding: 12px 8px;
-    text-align: center;
-  }
-  .hero-stat .num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; color: var(--gold); font-weight: 700;
-    display: block;
-  }
-  .hero-stat .lbl {
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    font-family: 'JetBrains Mono', monospace;
-  }
+/* Left panel — photo */
+.hero-photo-panel {
+  position: relative;
+  overflow: hidden;
+}
+.hero-photo-panel::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, transparent 60%, var(--ink) 100%),
+              linear-gradient(to top, var(--ink) 0%, transparent 30%);
+}
 
-  /* ===== SECTION WRAPPER ===== */
-  .section { padding: 100px 3rem; }
-  .container { max-width: 1200px; margin: 0 auto; }
-  .section-label {
-    display: flex; align-items: center; gap: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 1rem;
-  }
-  .section-label::before { content: ''; flex: none; width: 24px; height: 1px; background: var(--red); }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 3rem;
-    color: var(--dark);
-  }
-  .section-title em { color: var(--red); font-style: italic; }
+/* Photo area */
+.hero-photo {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(20%) contrast(1.05);
+  transition: transform 8s ease;
+}
+.hero-photo-panel:hover .hero-photo {
+  transform: scale(1.04);
+}
 
-  /* ===== ABOUT ===== */
-  #about { background: #fff; }
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 5rem;
-    align-items: start;
-  }
-  .about-sidebar {}
-  .info-block {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--light-gray);
-  }
-  .info-block:last-child { border-bottom: none; }
-  .info-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 6px;
-  }
-  .info-value {
-    font-size: 1rem;
-    color: var(--dark);
-    font-weight: 400;
-  }
-  .info-value strong { font-weight: 600; }
-  .ministry-tag {
-    background: var(--blue-light);
-    border-left: 3px solid var(--blue);
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    color: var(--blue);
-    margin-top: 8px;
-    line-height: 1.5;
-  }
-  .about-body p {
-    margin-bottom: 1.4rem;
-    color: #3a3a3a;
-    font-size: 1.1rem;
-    line-height: 1.85;
-  }
-  .about-body p:first-of-type::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 4rem;
-    font-weight: 700;
-    float: left;
-    line-height: 0.75;
-    margin: 0.1em 0.1em 0 0;
-    color: var(--red);
-  }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
-  .skill-tag {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    padding: 5px 14px;
-    font-size: 0.8rem;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--gray);
-    letter-spacing: 0.05em;
-  }
+/* Photo placeholder (shown when no real photo) */
+.hero-photo-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(145deg, #1A1410 0%, #2A1E14 30%, #0F0E0C 100%);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 0;
+}
+.photo-avatar {
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  border: 3px solid rgba(201,168,76,0.4);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  box-shadow: 0 0 80px rgba(139,26,26,0.3), 0 0 0 1px rgba(201,168,76,0.15);
+}
+.photo-avatar-initials {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem; font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.photo-placeholder-label {
+  margin-top: 2rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: rgba(201,168,76,0.4);
+  text-transform: uppercase;
+  text-align: center;
+}
+.photo-upload-hint {
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.2);
+  margin-top: 0.4rem;
+  letter-spacing: 0.15em;
+}
 
-  /* ===== FOCUS AREAS ===== */
-  #focus { background: var(--dark); }
-  #focus .section-title { color: #fff; }
-  #focus .section-label { color: var(--gold); }
-  #focus .section-label::before { background: var(--gold); }
-  .focus-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  .focus-card {
-    background: rgba(255,255,255,0.03);
-    padding: 2.5rem 2rem;
-    transition: background 0.25s;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
-  }
-  .focus-card:hover { background: rgba(255,255,255,0.06); }
-  .focus-card::before {
-    content: attr(data-num);
-    position: absolute; top: 1.5rem; right: 1.5rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 4rem; font-weight: 700;
-    color: rgba(255,255,255,0.04);
-    line-height: 1;
-  }
-  .focus-icon {
-    font-size: 2rem; margin-bottom: 1.2rem; display: block;
-  }
-  .focus-card h3 {
-    font-family: 'Playfair Display', serif;
-    color: #fff; font-size: 1.2rem;
-    margin-bottom: 0.8rem;
-    font-weight: 700;
-  }
-  .focus-card p {
-    color: rgba(255,255,255,0.55);
-    font-size: 0.95rem;
-    line-height: 1.7;
-  }
-  .focus-tag {
-    display: inline-block;
-    margin-top: 1rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-    border-top: 1px solid rgba(212,172,13,0.3);
-    padding-top: 0.7rem;
-  }
+/* Decorative grid overlay on photo panel */
+.hero-photo-panel::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
 
-  /* ===== BLOG ===== */
-  #blog { background: var(--cream); }
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-  .blog-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none; color: inherit;
-  }
-  .blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-  }
-  .blog-card-img {
-    height: 180px;
-    display: flex; align-items: flex-end; padding: 1rem;
-    position: relative; overflow: hidden;
-  }
-  .blog-card-cat {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    position: relative; z-index: 1;
-  }
-  .cat-water { background: var(--blue); color: #fff; }
-  .cat-energy { background: var(--red); color: #fff; }
-  .cat-policy { background: var(--dark); color: #fff; }
-  .cat-personal { background: var(--gold); color: var(--dark); }
-  .blog-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-  .blog-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: var(--gray);
-    margin-bottom: 0.6rem;
-  }
-  .blog-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 0.8rem;
-    color: var(--dark);
-  }
-  .blog-card p {
-    font-size: 0.95rem;
-    color: var(--gray);
-    line-height: 1.65;
-    flex: 1;
-  }
-  .blog-readmore {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 1.2rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--red);
-    text-decoration: none;
-  }
-  .blog-readmore::after { content: '→'; }
+/* Gold vertical accent */
+.hero-gold-line {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+  z-index: 5;
+  opacity: 0.5;
+}
 
-  /* Blog card gradient backgrounds */
-  .bg1 { background: linear-gradient(135deg, #1A4A8A 0%, #0D1B2A 100%); }
-  .bg2 { background: linear-gradient(135deg, #96281B 0%, #4A0E0E 100%); }
-  .bg3 { background: linear-gradient(135deg, #2C5F2E 0%, #1A3A1C 100%); }
-  .bg4 { background: linear-gradient(135deg, #5D3A1A 0%, #3A220D 100%); }
-  .bg5 { background: linear-gradient(135deg, #1A2744 0%, #0D1220 100%); }
-  .bg6 { background: linear-gradient(135deg, #4A154B 0%, #280D29 100%); }
+/* Right panel — content */
+.hero-content-panel {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 5rem 80px 5rem;
+  position: relative; z-index: 2;
+}
 
-  /* ===== TIMELINE ===== */
-  #experience { background: #fff; }
-  .timeline { position: relative; padding-left: 2rem; }
-  .timeline::before {
-    content: '';
-    position: absolute; left: 0; top: 8px; bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--red) 0%, var(--blue) 100%);
-  }
-  .tl-item {
-    position: relative;
-    padding: 0 0 3rem 2.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .tl-item.visible { opacity: 1; transform: none; }
-  .tl-dot {
-    position: absolute; left: -2.5rem;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--red);
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 2px var(--red);
-    top: 6px;
-    transform: translateX(calc(-50% + 7px));
-  }
-  .tl-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    color: var(--red);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .tl-item h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .tl-org {
-    color: var(--blue);
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0.8rem;
-  }
-  .tl-item p {
-    color: var(--gray);
-    font-size: 1rem;
-    line-height: 1.7;
-    max-width: 700px;
-  }
+.hero-meta {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 2rem;
+}
+.hero-meta-line { width: 28px; height: 1px; background: var(--gold); }
+.hero-meta-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
 
-  /* ===== PUBLICATIONS ===== */
-  #publications { background: var(--cream); }
-  .pub-list { display: flex; flex-direction: column; gap: 1.5rem; }
-  .pub-item {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--red);
-    padding: 1.5rem 2rem;
-    display: flex; gap: 2rem; align-items: flex-start;
-    transition: box-shadow 0.2s;
-  }
-  .pub-item:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
-  .pub-year {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem; font-weight: 700;
-    color: var(--light-gray);
-    flex: none; min-width: 60px;
-    line-height: 1;
-  }
-  .pub-body h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem; font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .pub-body p { font-size: 0.9rem; color: var(--gray); line-height: 1.5; }
-  .pub-tag {
-    display: inline-block;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    padding: 2px 10px;
-    font-size: 0.7rem;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--gray);
-    margin-top: 8px;
-    margin-right: 6px;
-  }
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.0;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.hero-name .accent { 
+  font-style: italic; 
+  color: var(--gold-light);
+  font-weight: 300;
+}
+.hero-name .bold-part {
+  font-weight: 600;
+  display: block;
+}
 
-  /* ===== CONTACT ===== */
-  #contact {
-    background: linear-gradient(160deg, var(--dark) 0%, #1A2744 100%);
-    color: #fff;
-  }
-  #contact .section-title { color: #fff; }
-  #contact .section-label { color: var(--gold); }
-  #contact .section-label::before { background: var(--gold); }
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-  }
-  .contact-info p {
-    color: rgba(255,255,255,0.6);
-    font-size: 1.1rem;
-    margin-bottom: 2.5rem;
-    line-height: 1.8;
-  }
-  .contact-detail {
-    display: flex; gap: 1rem; align-items: flex-start;
-    margin-bottom: 1.5rem;
-  }
-  .contact-detail-icon {
-    width: 40px; height: 40px;
-    border: 1px solid rgba(212,172,13,0.4);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; flex: none;
-    color: var(--gold);
-  }
-  .contact-detail-body .lbl {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 3px;
-    display: block;
-  }
-  .contact-detail-body .val {
-    color: rgba(255,255,255,0.8);
-    font-size: 1rem;
-  }
-  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-  }
-  .form-group input,
-  .form-group textarea {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #fff;
-    padding: 12px 16px;
-    font-family: 'Crimson Pro', serif;
-    font-size: 1rem;
-    resize: none;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--gold);
-  }
-  .form-group input::placeholder,
-  .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+.hero-devnagari {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+}
 
-  /* ===== FOOTER ===== */
-  footer {
-    background: #0a0a0a;
-    color: rgba(255,255,255,0.4);
-    text-align: center;
-    padding: 2.5rem 3rem;
-    font-size: 0.85rem;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.05em;
-    border-top: 2px solid var(--red);
-  }
-  footer span { color: var(--gold); }
+.hero-role-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.25);
+  padding: 8px 16px;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-role-chip::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--gold);
+}
+.hero-role-chip-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  line-height: 1.6;
+}
 
-  /* ===== SCROLL REVEAL ===== */
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
+.hero-desc {
+  color: rgba(255,255,255,0.5);
+  font-size: 1rem;
+  max-width: 420px;
+  margin-bottom: 3rem;
+  line-height: 1.9;
+  font-weight: 300;
+}
 
-  /* ===== NEPAL EMBLEM WATERMARK ===== */
-  .emblem-watermark {
-    position: absolute; bottom: 3rem; right: 3rem;
-    width: 180px; height: 180px;
-    opacity: 0.04;
-    font-size: 10rem;
-    display: flex; align-items: center; justify-content: center;
-    pointer-events: none;
-    user-select: none;
-  }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
 
-  /* ===== DECORATIVE DIVIDER ===== */
-  .divider {
-    display: flex; align-items: center; gap: 1rem;
-    margin: 2.5rem 0;
-  }
-  .divider::before, .divider::after {
-    content: ''; flex: 1; height: 1px; background: var(--light-gray);
-  }
-  .divider span {
-    color: var(--gold);
-    font-size: 1.2rem;
-  }
+.btn-primary {
+  background: var(--crimson);
+  color: #fff;
+  padding: 14px 32px;
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none; cursor: pointer;
+  transition: all 0.25s;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--crimson-deep);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(139,26,26,0.4); }
 
-  /* Responsive */
-  @media(max-width:900px){
-    .hero-inner,.about-grid,.contact-grid,.focus-grid,.blog-grid{ grid-template-columns:1fr; gap:2rem; }
-    .hero-right { display: none; }
-    nav { padding: 0 1.5rem; }
-    .nav-links { gap: 1rem; }
-    .section { padding: 60px 1.5rem; }
-    .hero { padding: 90px 1.5rem 50px; }
-  }
+.btn-ghost {
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.65);
+  padding: 14px 32px;
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Stats row */
+.hero-stats {
+  display: flex; gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 2rem;
+}
+.hero-stat {
+  padding-right: 3rem;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  margin-right: 3rem;
+}
+.hero-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+.hero-stat .num {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hero-stat .lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Corner decoration */
+.hero-corner {
+  position: absolute; bottom: 2rem; right: 2rem;
+  opacity: 0.06; z-index: 1;
+  font-size: 12rem;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ===== SECTION COMMON ===== */
+.section { padding: 110px 4rem; }
+.container { max-width: 1260px; margin: 0 auto; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 1.2rem;
+}
+.eyebrow::before { content: ''; width: 20px; height: 1px; background: currentColor; flex: none; }
+
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 3.5rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.section-heading em {
+  font-style: italic;
+  color: var(--crimson);
+  font-weight: 300;
+}
+
+/* ===== ABOUT ===== */
+#about {
+  background: var(--white);
+  position: relative;
+}
+#about::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(to right, var(--crimson) 0%, var(--gold) 50%, var(--navy) 100%);
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+/* Profile photo in about */
+.about-photo-frame {
+  position: sticky; top: 100px;
+}
+.about-photo-wrapper {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+.about-photo-img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(15%);
+}
+.about-photo-mock {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: linear-gradient(145deg, #1A1614 0%, #2E221A 50%, #1A1614 100%);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.about-photo-mock::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(201,168,76,0.03) 30px, rgba(201,168,76,0.03) 31px),
+    repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(201,168,76,0.03) 30px, rgba(201,168,76,0.03) 31px);
+}
+.about-avatar {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-deep));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  border: 2px solid rgba(201,168,76,0.35);
+  box-shadow: 0 0 40px rgba(139,26,26,0.25);
+  position: relative; z-index: 1;
+}
+.about-photo-upload-note {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: rgba(201,168,76,0.35);
+  text-align: center;
+  text-transform: uppercase;
+  position: relative; z-index: 1;
+}
+
+/* Frame decoration */
+.about-photo-wrapper::before {
+  content: '';
+  position: absolute; top: 12px; left: 12px; right: -12px; bottom: -12px;
+  border: 1px solid rgba(201,168,76,0.2);
+  pointer-events: none;
+  z-index: -1;
+}
+.about-photo-wrapper::after {
+  content: '';
+  position: absolute; top: -1px; left: 0; right: 0;
+  height: 3px;
+  background: var(--crimson);
+}
+
+.about-sidebar-info {}
+.info-row {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--cream-dark);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.57rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.info-val {
+  font-size: 0.92rem;
+  color: var(--text);
+  font-weight: 400;
+}
+.ministry-badge {
+  margin-top: 4px;
+  background: var(--cream);
+  border-left: 2px solid var(--navy);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: var(--navy-mid);
+  line-height: 1.55;
+}
+
+/* Skills */
+.skill-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.skill-pill {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 3px 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--text-light);
+  transition: all 0.2s;
+  cursor: default;
+}
+.skill-pill:hover {
+  background: var(--crimson-muted);
+  border-color: var(--crimson);
+  color: var(--crimson);
+}
+
+/* About body */
+.about-body p {
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  font-weight: 300;
+}
+.about-body p:first-of-type::first-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  float: left;
+  line-height: 0.72;
+  margin: 0.08em 0.12em 0 0;
+  color: var(--crimson);
+}
+
+.pull-quote {
+  border-left: 3px solid var(--gold);
+  padding: 1.2rem 2rem;
+  margin: 2.5rem 0;
+  background: var(--cream);
+}
+.pull-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink-mid);
+  margin: 0 !important;
+  line-height: 1.6;
+}
+.pull-quote cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--text-light);
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+/* ===== FOCUS AREAS ===== */
+#focus {
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+#focus .eyebrow { color: var(--gold); }
+#focus .eyebrow::before { background: var(--gold); }
+#focus .section-heading { color: #fff; }
+#focus .section-heading em { color: var(--gold-light); }
+
+/* Diagonal stripe bg */
+#focus::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -45deg, 
+    transparent, transparent 40px,
+    rgba(255,255,255,0.008) 40px, rgba(255,255,255,0.008) 41px
+  );
+}
+
+.focus-bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 2px;
+  position: relative; z-index: 1;
+}
+
+.focus-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 2.5rem;
+  transition: background 0.3s, border-color 0.3s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.focus-item:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(201,168,76,0.2);
+}
+.focus-item::before {
+  content: attr(data-num);
+  position: absolute; bottom: 1.5rem; right: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem; font-weight: 700;
+  color: rgba(255,255,255,0.03);
+  line-height: 1; pointer-events: none;
+}
+
+.focus-item:nth-child(1) { grid-column: span 4; }
+.focus-item:nth-child(2) { grid-column: span 4; }
+.focus-item:nth-child(3) { grid-column: span 4; }
+.focus-item:nth-child(4) { grid-column: span 6; }
+.focus-item:nth-child(5) { grid-column: span 3; }
+.focus-item:nth-child(6) { grid-column: span 3; }
+
+.focus-icon-wrap {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201,168,76,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.3s;
+}
+.focus-item:hover .focus-icon-wrap { border-color: rgba(201,168,76,0.6); }
+
+.focus-item h3 {
+  font-family: 'Cormorant Garamond', serif;
+  color: #fff; font-size: 1.3rem; font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+.focus-item p {
+  color: rgba(255,255,255,0.45);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.focus-item-tag {
+  display: inline-block; margin-top: 1.2rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(201,168,76,0.2);
+}
+
+/* ===== BLOG ===== */
+#blog { background: var(--cream); }
+
+.blog-layout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+}
+
+.blog-card {
+  background: var(--white);
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+}
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.blog-card--featured {
+  grid-column: span 7;
+}
+.blog-card--sm {
+  grid-column: span 5;
+}
+.blog-card--third {
+  grid-column: span 4;
+}
+
+.blog-card-thumb {
+  height: 220px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: flex-end;
+  padding: 1.5rem;
+}
+.blog-card--featured .blog-card-thumb { height: 300px; }
+.blog-card-thumb-bg {
+  position: absolute; inset: 0;
+  transition: transform 0.5s ease;
+}
+.blog-card:hover .blog-card-thumb-bg { transform: scale(1.04); }
+.blog-card-thumb::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+}
+.card-cat-label {
+  position: relative; z-index: 1;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  color: #fff;
+}
+.cat-water { background: var(--navy); }
+.cat-energy { background: var(--crimson); }
+.cat-policy { background: #1A3A1A; }
+.cat-personal { background: rgba(201,168,76,0.85); color: var(--ink); }
+.cat-climate { background: #2A3A1A; }
+.cat-irrig { background: #3A2810; }
+
+.blog-card-body {
+  padding: 1.8rem;
+  flex: 1; display: flex; flex-direction: column;
+}
+.blog-card-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+  margin-bottom: 0.7rem;
+}
+.blog-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.8rem;
+  color: var(--ink);
+}
+.blog-card--featured .blog-card-title {
+  font-size: 1.7rem;
+}
+.blog-card-excerpt {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  flex: 1;
+  font-weight: 300;
+}
+.blog-card-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 1.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+.blog-card-link:hover { gap: 12px; }
+.blog-card-link::after { content: '→'; }
+
+/* Gradient backgrounds for blog cards */
+.bg-water { background: linear-gradient(135deg, #0D1B3E 0%, #1A2F5C 100%); }
+.bg-hydro { background: linear-gradient(135deg, #5C0E0E 0%, #3A0808 100%); }
+.bg-policy { background: linear-gradient(135deg, #1A3A1A 0%, #0D200D 100%); }
+.bg-irrig { background: linear-gradient(135deg, #4A2810 0%, #2A1408 100%); }
+.bg-climate { background: linear-gradient(135deg, #1A2A1A 0%, #102030 100%); }
+.bg-personal { background: linear-gradient(135deg, #2A1A3A 0%, #1A0D28 100%); }
+
+/* ===== TIMELINE ===== */
+#experience { background: var(--white); }
+.timeline-wrapper { position: relative; padding-left: 3rem; }
+.timeline-wrapper::before {
+  content: '';
+  position: absolute; left: 0; top: 12px; bottom: 20px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--crimson) 0%, var(--gold) 50%, var(--navy) 100%);
+}
+.tl-item {
+  position: relative;
+  padding-bottom: 3.5rem;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.tl-item.visible { opacity: 1; transform: none; }
+.tl-item:last-child { padding-bottom: 0; }
+
+.tl-marker {
+  position: absolute; left: -3rem;
+  top: 6px;
+  transform: translateX(calc(-50% + 0.5px));
+  display: flex; align-items: center; justify-content: center;
+}
+.tl-dot-outer {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--crimson);
+  display: flex; align-items: center; justify-content: center;
+}
+.tl-dot-inner {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--crimson);
+}
+.tl-item:last-child .tl-dot-outer { border-color: var(--navy); }
+.tl-item:last-child .tl-dot-inner { background: var(--navy); }
+
+.tl-year {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--crimson);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.tl-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.tl-org {
+  font-size: 0.9rem;
+  color: var(--navy-mid);
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+}
+.tl-desc {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 660px;
+  font-weight: 300;
+}
+
+/* ===== PUBLICATIONS ===== */
+#publications { background: var(--cream); }
+.pub-stack { display: flex; flex-direction: column; gap: 1px; }
+.pub-card {
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 2rem; align-items: start;
+  padding: 2rem 2.5rem;
+  border-left: 3px solid transparent;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  border-bottom: 1px solid var(--border);
+}
+.pub-card:hover {
+  border-left-color: var(--crimson);
+  box-shadow: 4px 0 0 0 var(--crimson), 0 4px 20px rgba(0,0,0,0.06);
+}
+.pub-year-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--cream-dark);
+  line-height: 1;
+  padding-top: 4px;
+}
+.pub-card:hover .pub-year-big { color: rgba(139,26,26,0.15); }
+.pub-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.pub-desc {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  line-height: 1.65;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+}
+.pub-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.pub-tag {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 2px 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+.pub-arrow {
+  color: var(--text-light);
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateX(-4px);
+  padding-top: 4px;
+  align-self: center;
+}
+.pub-card:hover .pub-arrow { opacity: 1; transform: translateX(0); color: var(--crimson); }
+
+/* ===== CONTACT ===== */
+#contact {
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+#contact::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 60%, rgba(139,26,26,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(13,27,62,0.3) 0%, transparent 60%);
+}
+#contact .eyebrow { color: var(--gold); }
+#contact .eyebrow::before { background: var(--gold); }
+#contact .section-heading { color: #fff; }
+#contact .section-heading em { color: var(--gold-light); }
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+  position: relative; z-index: 1;
+}
+
+.contact-info-text {
+  color: rgba(255,255,255,0.5);
+  font-size: 1rem;
+  line-height: 1.9;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.contact-detail {
+  display: flex; gap: 1.2rem;
+  align-items: flex-start;
+  margin-bottom: 1.8rem;
+}
+.contact-detail-icon {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201,168,76,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex: none; color: var(--gold);
+  background: rgba(201,168,76,0.05);
+}
+.contact-detail-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.57rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block; margin-bottom: 4px;
+}
+.contact-detail-val {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Form */
+.contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.form-input,
+.form-textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.9);
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  resize: none;
+}
+.form-input:focus,
+.form-textarea:focus {
+  border-color: rgba(201,168,76,0.5);
+  background: rgba(255,255,255,0.06);
+}
+.form-input::placeholder,
+.form-textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+/* ===== FOOTER ===== */
+footer {
+  background: #080706;
+  border-top: 1px solid rgba(201,168,76,0.15);
+  padding: 2.5rem 4rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-left {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.3);
+}
+.footer-left span { color: var(--gold); }
+.footer-right {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.2);
+  text-align: right;
+}
+.footer-np-flag {
+  display: flex; gap: 4px; align-items: center; margin-top: 4px; justify-content: flex-end;
+}
+.flag-r { width: 8px; height: 8px; background: var(--crimson); border-radius: 1px; }
+.flag-b { width: 8px; height: 8px; background: #003893; border-radius: 1px; }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-photo-panel { height: 60vw; max-height: 400px; }
+  .hero-photo-panel::after { background: linear-gradient(to top, var(--ink) 0%, transparent 40%); }
+  .hero-content-panel { padding: 50px 2rem 60px; }
+  .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .about-photo-frame { position: static; }
+  .focus-bento .focus-item { grid-column: span 12 !important; }
+  .blog-layout .blog-card { grid-column: span 12 !important; }
+  .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .section { padding: 70px 1.5rem; }
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .pub-card { grid-template-columns: 60px 1fr; }
+  .pub-arrow { display: none; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+}
 </style>
 </head>
 <body>
 
 <!-- Preloader -->
 <div id="preloader">
-  <div class="loader-text">SKK</div>
+  <div class="loader-emblem">SKK</div>
+  <div class="loader-line"></div>
+  <div class="loader-sub">Government of Nepal</div>
 </div>
 
 <!-- Navigation -->
 <nav id="navbar">
-  <a href="#home" class="nav-logo">Swatantra Kumar Karna</a>
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-flag">
+      <span></span><span></span>
+    </div>
+    Swatantra Kumar Karna
+  </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#focus">Focus</a></li>
@@ -740,237 +1096,277 @@
   </ul>
 </nav>
 
-<!-- Hero -->
+<!-- ===== HERO ===== -->
 <section class="hero" id="home">
-  <div class="hero-bg-pattern"></div>
-  <div class="hero-flag-stripe"></div>
-  <div class="emblem-watermark">⛰</div>
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-eyebrow">Government of Nepal</div>
-      <h1 class="hero-name">Swatantra<br>Kumar <span>Karna</span></h1>
-      <p class="hero-title-np">स्वतन्त्र कुमार कर्ण</p>
-      <div class="hero-ministry">
-        ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय &nbsp;·&nbsp; सिंहदरबार, काठमाडौं
+
+  <!-- Left: Photo -->
+  <div class="hero-photo-panel">
+    <!-- 
+      TO ADD YOUR PHOTO: Replace the div below with:
+      <img src="YOUR_PHOTO.jpg" alt="Swatantra Kumar Karna" class="hero-photo">
+    -->
+    <div class="hero-photo-placeholder">
+      <div class="photo-avatar">
+        <div class="photo-avatar-initials">SK</div>
       </div>
-      <p class="hero-desc">
-        A dedicated civil servant at the Ministry of Energy, Water Resources and Irrigation, Government of Nepal — working at the intersection of water governance, hydropower policy, and sustainable resource management for national prosperity.
-      </p>
-      <div class="hero-ctas">
-        <a href="#blog" class="btn-primary">Read My Blog</a>
-        <a href="#about" class="btn-outline">Learn More</a>
+      <div class="photo-placeholder-label">Swatantra Kumar Karna</div>
+      <div class="photo-upload-hint"><img src="swatantra.jpg" alt="Swatantra Kumar Karna" class="hero-photo"></div>
+    </div>
+    <div class="hero-gold-line"></div>
+  </div>
+
+  <!-- Right: Content -->
+  <div class="hero-content-panel">
+    <div class="hero-meta">
+      <div class="hero-meta-line"></div>
+      <div class="hero-meta-text">Government of Nepal &nbsp;·&nbsp; नेपाल सरकार</div>
+    </div>
+
+    <h1 class="hero-name">
+      <span style="font-weight:300; font-size:0.65em; letter-spacing:0.02em; color:rgba(255,255,255,0.6); display:block; font-family:'DM Sans',sans-serif; font-style:normal; margin-bottom:0.2em; font-size:1.1rem;">Civil Servant &amp; Policy Thinker</span>
+      Swatantra<br>Kumar <span class="accent">Karna</span>
+    </h1>
+
+    <p class="hero-devnagari">स्वतन्त्र कुमार कर्ण</p>
+
+    <div class="hero-role-chip">
+      <div class="hero-role-chip-text">
+        ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय &nbsp;·&nbsp; Singha Durbar, Kathmandu
       </div>
     </div>
-    <div class="hero-right">
-      <div class="avatar-card">
-        <div class="avatar-frame">
-          <div class="avatar-initials">SKK</div>
-          <div class="avatar-card-name">Swatantra Kumar Karna</div>
-          <div class="avatar-card-role">Ministry of Energy, Water Resources<br>& Irrigation, Nepal</div>
-          <div class="avatar-badge">
-            <span>Nepal<br>Sarkar</span>
-          </div>
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <span class="num">15+</span>
-            <span class="lbl">Years Service</span>
-          </div>
-          <div class="hero-stat">
-            <span class="num">50+</span>
-            <span class="lbl">Projects</span>
-          </div>
-          <div class="hero-stat">
-            <span class="num">20+</span>
-            <span class="lbl">Articles</span>
-          </div>
-        </div>
+
+    <p class="hero-desc">
+      A dedicated civil servant at the Ministry of Energy, Water Resources and Irrigation — working at the intersection of water governance, hydropower policy, and sustainable resource management for Nepal's national prosperity.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#blog" class="btn-primary"><span>Read My Blog</span></a>
+      <a href="#about" class="btn-ghost">Learn More</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num">15+</span>
+        <span class="lbl">Years Service</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">50+</span>
+        <span class="lbl">Projects</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">20+</span>
+        <span class="lbl">Publications</span>
       </div>
     </div>
   </div>
+
 </section>
 
-<!-- About -->
+<!-- ===== ABOUT ===== -->
 <section class="section" id="about">
   <div class="container">
-    <div class="section-label">About Me</div>
-    <h2 class="section-title">Committed to Nepal's<br><em>Water & Energy Future</em></h2>
-    <div class="about-grid">
-      <div class="about-sidebar">
-        <div class="info-block">
-          <div class="info-label">Full Name</div>
-          <div class="info-value"><strong>Swatantra Kumar Karna</strong><br>स्वतन्त्र कुमार कर्ण</div>
+    <div class="eyebrow">About Me</div>
+    <h2 class="section-heading">Committed to Nepal's<br><em>Water &amp; Energy Future</em></h2>
+    <div class="about-layout">
+
+      <!-- Sidebar with photo -->
+      <div class="about-photo-frame reveal">
+        <div class="about-photo-wrapper">
+          <!-- 
+            TO ADD YOUR PHOTO: Replace the div below with:
+            <img src="YOUR_PHOTO.jpg" alt="Swatantra Kumar Karna" class="about-photo-img">
+          -->
+          <div class="about-photo-mock">
+            <div class="about-avatar">SK</div>
+            <div class="about-photo-upload-note"><img src="swatantra.jpg" alt="Swatantra Kumar Karna" class="hero-photo"></div>
+          </div>
         </div>
-        <div class="info-block">
-          <div class="info-label">Current Position</div>
-          <div class="info-value">
-            Government of Nepal
-            <div class="ministry-tag">
-              <strong>ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय</strong><br>
-              Ministry of Energy, Water Resources and Irrigation<br>
-              Singha Durbar, Kathmandu, Nepal
+
+        <div class="about-sidebar-info">
+          <div class="info-row">
+            <div class="info-key">Full Name</div>
+            <div class="info-val"><strong>Swatantra Kumar Karna</strong><br><span style="color:var(--text-light); font-size:0.9rem;">स्वतन्त्र कुमार कर्ण</span></div>
+          </div>
+          <div class="info-row">
+            <div class="info-key">Current Position</div>
+            <div class="info-val">
+              <div class="ministry-badge">
+                <strong>Ministry of Energy, Water Resources<br>and Irrigation</strong><br>
+                Government of Nepal &nbsp;🇳🇵
+              </div>
             </div>
           </div>
-        </div>
-        <div class="info-block">
-          <div class="info-label">Areas of Expertise</div>
-          <div class="skill-tags">
-            <span class="skill-tag">Water Resources</span>
-            <span class="skill-tag">Hydropower Policy</span>
-            <span class="skill-tag">Irrigation</span>
-            <span class="skill-tag">Energy Governance</span>
-            <span class="skill-tag">Public Administration</span>
-            <span class="skill-tag">Rural Development</span>
-            <span class="skill-tag">Climate Adaptation</span>
-            <span class="skill-tag">Disaster Risk</span>
+          <div class="info-row">
+            <div class="info-key">Expertise</div>
+            <div class="skill-cloud">
+              <span class="skill-pill">Water Resources</span>
+              <span class="skill-pill">Hydropower Policy</span>
+              <span class="skill-pill">Irrigation</span>
+              <span class="skill-pill">Energy Governance</span>
+              <span class="skill-pill">Public Admin</span>
+              <span class="skill-pill">Rural Development</span>
+              <span class="skill-pill">Climate Adaptation</span>
+              <span class="skill-pill">Disaster Risk</span>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-key">Based In</div>
+            <div class="info-val">Kathmandu, Nepal</div>
           </div>
         </div>
-        <div class="info-block">
-          <div class="info-label">Location</div>
-          <div class="info-value">Kathmandu, Nepal 🇳🇵</div>
-        </div>
       </div>
-      <div class="about-body">
+
+      <!-- Body text -->
+      <div class="about-body reveal">
         <p>
           Serving the Government of Nepal with dedication and purpose, I have spent over a decade working within the Ministry of Energy, Water Resources and Irrigation — an institution at the very heart of Nepal's developmental aspirations. My work spans the full spectrum of water governance: from the high Himalayan watersheds that feed our rivers, to the last-mile irrigation channels that sustain our farmers.
         </p>
         <p>
           Nepal sits atop one of the world's greatest untapped hydropower potentials — an estimated 83,000 MW of technically feasible capacity. Yet realising this potential requires not just engineering, but visionary policy, community engagement, and environmental stewardship. This intersection of technocracy and governance is where I find my professional calling.
         </p>
+
+        <div class="pull-quote">
+          <p>"Water is not just a resource — it is the lifeblood of civilisation, and in Nepal, its stewardship is our greatest responsibility."</p>
+          <cite>— Swatantra Kumar Karna</cite>
+        </div>
+
         <p>
-          Through this blog, I aim to share insights from my professional journey — the policy debates I witness, the projects that shape lives, the rivers whose futures we negotiate, and my reflections on what it means to serve the public in the land of the Himalayas.
-        </p>
-        <div class="divider"><span>✦</span></div>
-        <p style="font-style:italic; color: var(--gray); font-size: 1rem;">
-          "Water is not just a resource — it is the lifeblood of civilisation, and in Nepal, its stewardship is our greatest responsibility."
+          Through this blog, I aim to share insights from my professional journey — the policy debates I witness, the projects that shape lives, the rivers whose futures we negotiate, and my reflections on what it means to serve the public in the land of the Himalayas. I believe in transparent governance and the power of evidence-based policy to transform lives at scale.
         </p>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- Focus Areas -->
+<!-- ===== FOCUS AREAS ===== -->
 <section class="section" id="focus">
   <div class="container">
-    <div class="section-label">Focus Areas</div>
-    <h2 class="section-title" style="color:#fff">What I Work On<br><em style="color:var(--gold)">Every Single Day</em></h2>
-    <div class="focus-grid reveal">
-      <div class="focus-card" data-num="01">
-        <span class="focus-icon">💧</span>
+    <div class="eyebrow">Focus Areas</div>
+    <h2 class="section-heading">What I Work On<br><em>Every Single Day</em></h2>
+    <div class="focus-bento reveal">
+      <div class="focus-item" data-num="01">
+        <div class="focus-icon-wrap">💧</div>
         <h3>Water Resources Management</h3>
         <p>Integrated watershed management, transboundary water diplomacy, and ensuring equitable water access for rural and urban communities across Nepal's diverse geography.</p>
-        <div class="focus-tag">Core Mandate</div>
+        <div class="focus-item-tag">Core Mandate</div>
       </div>
-      <div class="focus-card" data-num="02">
-        <span class="focus-icon">⚡</span>
+      <div class="focus-item" data-num="02">
+        <div class="focus-icon-wrap">⚡</div>
         <h3>Hydropower Development</h3>
         <p>Policy frameworks for harnessing Nepal's 83,000 MW potential — balancing investor confidence, community rights, environmental safeguards, and national energy sovereignty.</p>
-        <div class="focus-tag">Energy Sector</div>
+        <div class="focus-item-tag">Energy Sector</div>
       </div>
-      <div class="focus-card" data-num="03">
-        <span class="focus-icon">🌾</span>
-        <h3>Irrigation & Food Security</h3>
-        <p>Expanding and modernising irrigation infrastructure to boost agricultural productivity, ensuring Nepal's farming communities are resilient to rainfall variability and climate change.</p>
-        <div class="focus-tag">Agriculture</div>
+      <div class="focus-item" data-num="03">
+        <div class="focus-icon-wrap">🌾</div>
+        <h3>Irrigation &amp; Food Security</h3>
+        <p>Expanding and modernising irrigation infrastructure to boost agricultural productivity, ensuring Nepal's farming communities are resilient to climate variability.</p>
+        <div class="focus-item-tag">Agriculture</div>
       </div>
-      <div class="focus-card" data-num="04">
-        <span class="focus-icon">📋</span>
-        <h3>Policy & Legislation</h3>
-        <p>Drafting, reviewing, and implementing laws, regulations, and directives that govern the use, protection, and development of Nepal's water and energy resources.</p>
-        <div class="focus-tag">Governance</div>
+      <div class="focus-item" data-num="04">
+        <div class="focus-icon-wrap">📋</div>
+        <h3>Policy &amp; Legislation</h3>
+        <p>Drafting, reviewing, and implementing laws, regulations, and directives that govern the use, protection, and development of Nepal's water and energy resources — ensuring robust legal frameworks for sustainable governance.</p>
+        <div class="focus-item-tag">Governance</div>
       </div>
-      <div class="focus-card" data-num="05">
-        <span class="focus-icon">🌍</span>
-        <h3>Climate & Disaster Risk</h3>
-        <p>Glacial lake outburst floods (GLOFs), landslide-dammed lakes, and climate-induced water stress — building adaptive capacity into our water systems is existential for Nepal.</p>
-        <div class="focus-tag">Resilience</div>
+      <div class="focus-item" data-num="05">
+        <div class="focus-icon-wrap">🌍</div>
+        <h3>Climate &amp; Disaster Risk</h3>
+        <p>GLOFs, landslide-dammed lakes, and climate-induced water stress — building adaptive capacity into our water systems is existential for Nepal.</p>
+        <div class="focus-item-tag">Resilience</div>
       </div>
-      <div class="focus-card" data-num="06">
-        <span class="focus-icon">🤝</span>
+      <div class="focus-item" data-num="06">
+        <div class="focus-icon-wrap">🤝</div>
         <h3>International Cooperation</h3>
-        <p>Engaging bilateral and multilateral partners — India, China, World Bank, ADB, UN agencies — to mobilise investment and technical expertise for Nepal's water and energy future.</p>
-        <div class="focus-tag">Diplomacy</div>
+        <p>Engaging bilateral and multilateral partners — India, China, World Bank, ADB, UN agencies — to mobilise investment for Nepal's water and energy future.</p>
+        <div class="focus-item-tag">Diplomacy</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Blog -->
+<!-- ===== BLOG ===== -->
 <section class="section" id="blog">
   <div class="container">
-    <div class="section-label">Blog</div>
-    <h2 class="section-title">Thoughts, Insights<br><em>& Field Notes</em></h2>
-    <div class="blog-grid reveal">
+    <div class="eyebrow">Blog</div>
+    <h2 class="section-heading">Thoughts, Insights<br><em>&amp; Field Notes</em></h2>
+    <div class="blog-layout reveal">
 
-      <a href="#" class="blog-card">
-        <div class="blog-card-img bg1">
-          <span class="blog-card-cat cat-water">Water Resources</span>
+      <a href="#" class="blog-card blog-card--featured">
+        <div class="blog-card-thumb">
+          <div class="blog-card-thumb-bg bg-water" style="position:absolute;inset:0;"></div>
+          <span class="card-cat-label cat-water">Water Resources</span>
         </div>
         <div class="blog-card-body">
-          <div class="blog-date">March 8, 2026</div>
-          <h3>Nepal's Transboundary Rivers: Diplomacy Beneath the Surface</h3>
-          <p>How Nepal navigates the complex geopolitics of shared river systems with India and China, and why water is increasingly central to our foreign policy.</p>
-          <span class="blog-readmore">Read Article</span>
+          <div class="blog-card-date">March 8, 2026</div>
+          <h3 class="blog-card-title">Nepal's Transboundary Rivers: Diplomacy Beneath the Surface</h3>
+          <p class="blog-card-excerpt">How Nepal navigates the complex geopolitics of shared river systems with India and China, and why water is increasingly central to our foreign policy discourse and national sovereignty.</p>
+          <span class="blog-card-link">Read Article</span>
         </div>
       </a>
 
-      <a href="#" class="blog-card">
-        <div class="blog-card-img bg2">
-          <span class="blog-card-cat cat-energy">Hydropower</span>
+      <a href="#" class="blog-card blog-card--sm">
+        <div class="blog-card-thumb">
+          <div class="blog-card-thumb-bg bg-hydro" style="position:absolute;inset:0;"></div>
+          <span class="card-cat-label cat-energy">Hydropower</span>
         </div>
         <div class="blog-card-body">
-          <div class="blog-date">February 21, 2026</div>
-          <h3>Upper Karnali to Budhigandaki: A Decade of Project Lessons</h3>
-          <p>Reflecting on what Nepal's landmark hydropower projects have taught us about community consent, environmental baseline studies, and investor relations.</p>
-          <span class="blog-readmore">Read Article</span>
+          <div class="blog-card-date">February 21, 2026</div>
+          <h3 class="blog-card-title">Upper Karnali to Budhigandaki: A Decade of Project Lessons</h3>
+          <p class="blog-card-excerpt">Reflecting on what Nepal's landmark hydropower projects have taught us about community consent and environmental baseline studies.</p>
+          <span class="blog-card-link">Read Article</span>
         </div>
       </a>
 
-      <a href="#" class="blog-card">
-        <div class="blog-card-img bg3">
-          <span class="blog-card-cat cat-policy">Policy</span>
+      <a href="#" class="blog-card blog-card--third">
+        <div class="blog-card-thumb">
+          <div class="blog-card-thumb-bg bg-policy" style="position:absolute;inset:0;"></div>
+          <span class="card-cat-label cat-policy">Policy</span>
         </div>
         <div class="blog-card-body">
-          <div class="blog-date">January 15, 2026</div>
-          <h3>The National Water Policy 2020: Promise and Practice</h3>
-          <p>A critical assessment of how Nepal's most comprehensive water policy framework is being implemented — and where the gaps remain five years on.</p>
-          <span class="blog-readmore">Read Article</span>
+          <div class="blog-card-date">January 15, 2026</div>
+          <h3 class="blog-card-title">The National Water Policy 2020: Promise and Practice</h3>
+          <p class="blog-card-excerpt">A critical assessment of Nepal's comprehensive water policy framework — five years on.</p>
+          <span class="blog-card-link">Read Article</span>
         </div>
       </a>
 
-      <a href="#" class="blog-card">
-        <div class="blog-card-img bg4">
-          <span class="blog-card-cat cat-water">Irrigation</span>
+      <a href="#" class="blog-card blog-card--third">
+        <div class="blog-card-thumb">
+          <div class="blog-card-thumb-bg bg-irrig" style="position:absolute;inset:0;"></div>
+          <span class="card-cat-label cat-irrig">Irrigation</span>
         </div>
         <div class="blog-card-body">
-          <div class="blog-date">December 10, 2025</div>
-          <h3>The Forgotten Canals: Rehabilitating Nepal's Farmer-Managed Irrigation</h3>
-          <p>Over 70% of Nepal's irrigated land is managed by farmers themselves. Why the state must invest in these informal systems, not just large infrastructure.</p>
-          <span class="blog-readmore">Read Article</span>
+          <div class="blog-card-date">December 10, 2025</div>
+          <h3 class="blog-card-title">The Forgotten Canals: Rehabilitating Nepal's Farmer-Managed Irrigation</h3>
+          <p class="blog-card-excerpt">Over 70% of Nepal's irrigated land is managed by farmers themselves.</p>
+          <span class="blog-card-link">Read Article</span>
         </div>
       </a>
 
-      <a href="#" class="blog-card">
-        <div class="blog-card-img bg5">
-          <span class="blog-card-cat cat-energy">Climate</span>
+      <a href="#" class="blog-card blog-card--third">
+        <div class="blog-card-thumb">
+          <div class="blog-card-thumb-bg bg-climate" style="position:absolute;inset:0;"></div>
+          <span class="card-cat-label cat-climate">Climate</span>
         </div>
         <div class="blog-card-body">
-          <div class="blog-date">November 3, 2025</div>
-          <h3>GLOF Early Warning: Racing Against Glacial Melt in Khumbu</h3>
-          <p>Field observations from monitoring missions in the Everest region reveal the urgent need for expanded glacial lake outburst flood early warning networks.</p>
-          <span class="blog-readmore">Read Article</span>
+          <div class="blog-card-date">November 3, 2025</div>
+          <h3 class="blog-card-title">GLOF Early Warning: Racing Against Glacial Melt in Khumbu</h3>
+          <p class="blog-card-excerpt">Field observations from the Everest region reveal the urgent need for expanded early warning networks.</p>
+          <span class="blog-card-link">Read Article</span>
         </div>
       </a>
 
-      <a href="#" class="blog-card">
-        <div class="blog-card-img bg6">
-          <span class="blog-card-cat cat-personal">Personal</span>
+      <a href="#" class="blog-card blog-card--third">
+        <div class="blog-card-thumb">
+          <div class="blog-card-thumb-bg bg-personal" style="position:absolute;inset:0;"></div>
+          <span class="card-cat-label cat-personal">Personal</span>
         </div>
         <div class="blog-card-body">
-          <div class="blog-date">October 12, 2025</div>
-          <h3>Why I Chose Public Service: A Civil Servant's Honest Reflection</h3>
-          <p>On the meaning of serving the state, the quiet satisfaction of incremental progress, and what keeps me motivated in the corridors of Singha Durbar.</p>
-          <span class="blog-readmore">Read Article</span>
+          <div class="blog-card-date">October 12, 2025</div>
+          <h3 class="blog-card-title">Why I Chose Public Service: A Civil Servant's Honest Reflection</h3>
+          <p class="blog-card-excerpt">On the meaning of serving the state and what keeps me motivated in the corridors of Singha Durbar.</p>
+          <span class="blog-card-link">Read Article</span>
         </div>
       </a>
 
@@ -978,145 +1374,156 @@
   </div>
 </section>
 
-<!-- Experience Timeline -->
+<!-- ===== TIMELINE ===== -->
 <section class="section" id="experience">
   <div class="container">
-    <div class="section-label">Career</div>
-    <h2 class="section-title">Professional<br><em>Journey</em></h2>
-    <div class="timeline">
+    <div class="eyebrow">Career</div>
+    <h2 class="section-heading">Professional<br><em>Journey</em></h2>
+    <div class="timeline-wrapper">
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2020 — Present</div>
-        <h3>Senior Officer</h3>
+        <div class="tl-marker"><div class="tl-dot-outer"><div class="tl-dot-inner"></div></div></div>
+        <div class="tl-year">2020 — Present</div>
+        <div class="tl-title">Senior Officer</div>
         <div class="tl-org">Ministry of Energy, Water Resources and Irrigation, Singha Durbar</div>
-        <p>Leading policy formulation and implementation for water resource governance, coordinating with national and international stakeholders on hydropower development and irrigation expansion programs.</p>
+        <p class="tl-desc">Leading policy formulation and implementation for water resource governance, coordinating with national and international stakeholders on hydropower development and irrigation expansion programs.</p>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2015 — 2020</div>
-        <h3>Section Officer</h3>
+        <div class="tl-marker"><div class="tl-dot-outer"><div class="tl-dot-inner"></div></div></div>
+        <div class="tl-year">2015 — 2020</div>
+        <div class="tl-title">Section Officer</div>
         <div class="tl-org">Department of Water Resources and Irrigation (DWRI)</div>
-        <p>Managed project appraisal for medium and large irrigation schemes. Worked on inter-agency coordination for the Irrigation Master Plan and oversaw implementation monitoring across provinces.</p>
+        <p class="tl-desc">Managed project appraisal for medium and large irrigation schemes. Worked on inter-agency coordination for the Irrigation Master Plan and oversaw implementation monitoring across provinces.</p>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2012 — 2015</div>
-        <h3>Officer</h3>
+        <div class="tl-marker"><div class="tl-dot-outer"><div class="tl-dot-inner"></div></div></div>
+        <div class="tl-year">2012 — 2015</div>
+        <div class="tl-title">Officer</div>
         <div class="tl-org">Water and Energy Commission Secretariat (WECS)</div>
-        <p>Contributed to national water resource inventory and baseline studies. Assisted in preparation of Nepal's first comprehensive Water Resources Strategy, providing analytical support for policy briefs.</p>
+        <p class="tl-desc">Contributed to national water resource inventory and baseline studies. Assisted in preparation of Nepal's first comprehensive Water Resources Strategy, providing analytical support for policy briefs.</p>
       </div>
       <div class="tl-item">
-        <div class="tl-dot" style="background:var(--blue); box-shadow: 0 0 0 2px var(--blue);"></div>
-        <div class="tl-date">2009 — 2012</div>
-        <h3>Assistant Officer</h3>
+        <div class="tl-marker"><div class="tl-dot-outer" style="border-color:var(--navy)"><div class="tl-dot-inner" style="background:var(--navy)"></div></div></div>
+        <div class="tl-year">2009 — 2012</div>
+        <div class="tl-title">Assistant Officer</div>
         <div class="tl-org">Department of Irrigation, Government of Nepal</div>
-        <p>Field postings in Madhesh Province overseeing canal rehabilitation and farmer irrigation group (FIG) strengthening programmes. Developed grassroots understanding of water user communities.</p>
+        <p class="tl-desc">Field postings in Madhesh Province overseeing canal rehabilitation and farmer irrigation group (FIG) strengthening programmes. Developed grassroots understanding of water user communities.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Publications -->
+<!-- ===== PUBLICATIONS ===== -->
 <section class="section" id="publications">
   <div class="container">
-    <div class="section-label">Publications & Reports</div>
-    <h2 class="section-title">Selected Works &<br><em>Contributions</em></h2>
-    <div class="pub-list reveal">
-      <div class="pub-item">
-        <div class="pub-year">2025</div>
-        <div class="pub-body">
-          <h4>Hydropower Licensing Reform in Nepal: Balancing Speed and Safeguards</h4>
-          <p>Published in <em>Journal of Water Policy</em> — an analysis of Nepal's revised hydropower licensing regime and its implications for investment climate and environmental compliance.</p>
-          <span class="pub-tag">Peer Reviewed</span>
-          <span class="pub-tag">Hydropower</span>
-          <span class="pub-tag">Policy</span>
+    <div class="eyebrow">Publications &amp; Reports</div>
+    <h2 class="section-heading">Selected Works &amp;<br><em>Contributions</em></h2>
+    <div class="pub-stack reveal">
+      <div class="pub-card">
+        <div class="pub-year-big">2025</div>
+        <div>
+          <div class="pub-title">Hydropower Licensing Reform in Nepal: Balancing Speed and Safeguards</div>
+          <p class="pub-desc">Published in <em>Journal of Water Policy</em> — an analysis of Nepal's revised hydropower licensing regime and its implications for investment climate and environmental compliance.</p>
+          <div class="pub-tags">
+            <span class="pub-tag">Peer Reviewed</span>
+            <span class="pub-tag">Hydropower</span>
+            <span class="pub-tag">Policy</span>
+          </div>
         </div>
+        <div class="pub-arrow">→</div>
       </div>
-      <div class="pub-item">
-        <div class="pub-year">2024</div>
-        <div class="pub-body">
-          <h4>Participatory Irrigation Management in the Terai: Evidence from Three Provinces</h4>
-          <p>Ministry of Energy, Water Resources and Irrigation technical report examining outcomes of farmer-managed irrigation system support programmes across Lumbini, Madhesh and Koshi provinces.</p>
-          <span class="pub-tag">Government Report</span>
-          <span class="pub-tag">Irrigation</span>
-          <span class="pub-tag">Participatory</span>
+      <div class="pub-card">
+        <div class="pub-year-big">2024</div>
+        <div>
+          <div class="pub-title">Participatory Irrigation Management in the Terai: Evidence from Three Provinces</div>
+          <p class="pub-desc">Ministry technical report examining outcomes of farmer-managed irrigation system support programmes across Lumbini, Madhesh and Koshi provinces.</p>
+          <div class="pub-tags">
+            <span class="pub-tag">Government Report</span>
+            <span class="pub-tag">Irrigation</span>
+            <span class="pub-tag">Participatory</span>
+          </div>
         </div>
+        <div class="pub-arrow">→</div>
       </div>
-      <div class="pub-item">
-        <div class="pub-year">2023</div>
-        <div class="pub-body">
-          <h4>Climate Finance for Water Security: Nepal's Access Challenges and Opportunities</h4>
-          <p>Policy brief prepared for the Ministry reviewing barriers to accessing Green Climate Fund and Adaptation Fund resources for water sector projects in Nepal.</p>
-          <span class="pub-tag">Policy Brief</span>
-          <span class="pub-tag">Climate Finance</span>
+      <div class="pub-card">
+        <div class="pub-year-big">2023</div>
+        <div>
+          <div class="pub-title">Climate Finance for Water Security: Nepal's Access Challenges and Opportunities</div>
+          <p class="pub-desc">Policy brief reviewing barriers to accessing Green Climate Fund and Adaptation Fund resources for water sector projects in Nepal.</p>
+          <div class="pub-tags">
+            <span class="pub-tag">Policy Brief</span>
+            <span class="pub-tag">Climate Finance</span>
+          </div>
         </div>
+        <div class="pub-arrow">→</div>
       </div>
-      <div class="pub-item">
-        <div class="pub-year">2021</div>
-        <div class="pub-body">
-          <h4>Nepal's Water Resources at a Crossroads: Governance Challenges in a Federal Structure</h4>
-          <p>Book chapter in <em>Himalayan Water Futures</em> (Springer) — examining how Nepal's 2015 constitutional federalisation has transformed water governance responsibilities and created new coordination challenges.</p>
-          <span class="pub-tag">Book Chapter</span>
-          <span class="pub-tag">Federalism</span>
-          <span class="pub-tag">Governance</span>
+      <div class="pub-card">
+        <div class="pub-year-big">2021</div>
+        <div>
+          <div class="pub-title">Nepal's Water Resources at a Crossroads: Governance Challenges in a Federal Structure</div>
+          <p class="pub-desc">Book chapter in <em>Himalayan Water Futures</em> (Springer) — examining how Nepal's 2015 constitutional federalisation has transformed water governance responsibilities.</p>
+          <div class="pub-tags">
+            <span class="pub-tag">Book Chapter</span>
+            <span class="pub-tag">Federalism</span>
+            <span class="pub-tag">Governance</span>
+          </div>
         </div>
+        <div class="pub-arrow">→</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Contact -->
+<!-- ===== CONTACT ===== -->
 <section class="section" id="contact">
   <div class="container">
-    <div class="section-label">Get In Touch</div>
-    <h2 class="section-title">Let's Connect &<br><em style="color:var(--gold)">Collaborate</em></h2>
-    <div class="contact-grid">
+    <div class="eyebrow">Get In Touch</div>
+    <h2 class="section-heading">Let's Connect &amp;<br><em>Collaborate</em></h2>
+    <div class="contact-layout">
       <div class="contact-info">
-        <p>Whether you are a researcher, policy professional, journalist, or fellow public servant — I welcome meaningful conversations about water, energy, and Nepal's development journey. Reach out through the form or directly via the details below.</p>
+        <p class="contact-info-text">Whether you are a researcher, policy professional, journalist, or fellow public servant — I welcome meaningful conversations about water, energy, and Nepal's development journey.</p>
         <div class="contact-detail">
           <div class="contact-detail-icon">📍</div>
-          <div class="contact-detail-body">
-            <span class="lbl">Office Address</span>
-            <span class="val">ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय<br>सिंहदरबार, काठमाडौं, नेपाल</span>
+          <div>
+            <span class="contact-detail-key">Office</span>
+            <span class="contact-detail-val">ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय<br>सिंहदरबार, काठमाडौं, नेपाल</span>
           </div>
         </div>
         <div class="contact-detail">
           <div class="contact-detail-icon">🏛</div>
-          <div class="contact-detail-body">
-            <span class="lbl">Ministry</span>
-            <span class="val">Ministry of Energy, Water Resources<br>and Irrigation, Government of Nepal</span>
+          <div>
+            <span class="contact-detail-key">Ministry</span>
+            <span class="contact-detail-val">Ministry of Energy, Water Resources<br>and Irrigation, Government of Nepal</span>
           </div>
         </div>
         <div class="contact-detail">
           <div class="contact-detail-icon">✉</div>
-          <div class="contact-detail-body">
-            <span class="lbl">Email</span>
-            <span class="val">swatantrakarna@moewri.gov.np</span>
+          <div>
+            <span class="contact-detail-key">Email</span>
+            <span class="contact-detail-val">swatantrakarna@gmail.com</span>
           </div>
         </div>
       </div>
-      <div>
-        <div class="contact-form">
+
+      <div class="contact-form">
+        <div class="form-row">
           <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" placeholder="Full name" />
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" placeholder="Full name" />
           </div>
           <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" placeholder="your@email.com" />
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="your@email.com" />
           </div>
-          <div class="form-group">
-            <label>Subject</label>
-            <input type="text" placeholder="What is this regarding?" />
-          </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea rows="5" placeholder="Write your message here..."></textarea>
-          </div>
-          <button class="btn-primary" type="button" style="align-self:flex-start; font-size:1rem; cursor:pointer;">
-            Send Message
-          </button>
         </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" placeholder="What is this regarding?" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" rows="5" placeholder="Write your message here..."></textarea>
+        </div>
+        <button class="btn-primary" id="sendBtn" type="button"><span>Send Message</span></button>
       </div>
     </div>
   </div>
@@ -1124,12 +1531,17 @@
 
 <!-- Footer -->
 <footer>
-  <p>
-    © 2026 <span>Swatantra Kumar Karna</span> &nbsp;·&nbsp;
-    Government of Nepal &nbsp;·&nbsp;
-    <span>ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय</span> &nbsp;·&nbsp;
-    Kathmandu, Nepal 🇳🇵
-  </p>
+  <div class="footer-left">
+    © 2026 &nbsp;<span>Swatantra Kumar Karna</span> &nbsp;·&nbsp; Kathmandu, Nepal
+  </div>
+  <div class="footer-right">
+    <div>Ministry of Energy, Water Resources and Irrigation</div>
+    <div>Government of Nepal &nbsp;·&nbsp; नेपाल सरकार</div>
+    <div class="footer-np-flag">
+      <div class="flag-r"></div><div class="flag-b"></div>
+      <span style="margin-left:4px;">🇳🇵</span>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -1137,11 +1549,10 @@
   window.addEventListener('load', () => {
     setTimeout(() => {
       document.getElementById('preloader').classList.add('hidden');
-    }, 1200);
+    }, 1600);
   });
 
   // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal, .tl-item');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if(e.isIntersecting) {
@@ -1149,32 +1560,47 @@
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => observer.observe(el));
+  }, { threshold: 0.1 });
 
-  // Stagger timeline
+  document.querySelectorAll('.reveal, .tl-item').forEach(el => observer.observe(el));
+
+  // Stagger timeline items
   document.querySelectorAll('.tl-item').forEach((el, i) => {
-    el.style.transitionDelay = (i * 0.12) + 's';
+    el.style.transitionDelay = (i * 0.15) + 's';
   });
 
-  // Navbar scroll effect
+  // Navbar shrink on scroll
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');
-    if(window.scrollY > 60) {
-      nav.style.height = '52px';
-    } else {
-      nav.style.height = '64px';
-    }
+    nav.style.height = window.scrollY > 60 ? '54px' : '68px';
   });
 
-  // Send message button feedback
-  document.querySelector('.contact-form .btn-primary').addEventListener('click', function(){
-    this.textContent = 'Message Sent ✓';
-    this.style.background = '#1A8A4A';
+  // Send button
+  document.getElementById('sendBtn').addEventListener('click', function(){
+    this.innerHTML = '<span>Message Sent ✓</span>';
+    this.style.background = '#1A5C35';
     setTimeout(() => {
-      this.textContent = 'Send Message';
+      this.innerHTML = '<span>Send Message</span>';
       this.style.background = '';
     }, 3000);
+  });
+
+  // Stagger blog cards reveal
+  document.querySelectorAll('.blog-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 0.08) + 's';
+  });
+
+  // Smooth active nav link highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if(window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+    });
   });
 </script>
 </body>
